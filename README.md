@@ -20,7 +20,7 @@ ingredient analysis visible to the user.
 
 ## Key Features
 
-- Searchable recipe database containing approximately 50,000 recipes
+- Searchable recipe database containing approximately 50,000 processed recipes
 - Filtering across 14 allergen categories
 - Ingredient-level allergen analysis
 - Recipe detail pages with allergen warnings
@@ -88,7 +88,7 @@ Recipe Detail & Warnings
 - HTML5
 - CSS3
 - JavaScript
-- - spaCy
+- spaCy
 - Word2Vec
 - Python-Dotenv
 
@@ -113,28 +113,22 @@ Soy lecithin
 The database stores boolean contains_[allergen] fields for the 14
 tracked allergen categories.
 
-BOTANICAL EXCLUSIONS (False Positive Mitigation)
-------------------------------------------------------------
-This database employs a "Botanical vs. Culinary" exclusion layer 
-as a rule designed to reduce false positives. The following 
-common "False Positives" are explicitly flagged as FALSE:
+### False-Positive Mitigation
 
-CATEGORY          | EXCLUDED KEYWORDS (Triggered but ignored)
-------------------------------------------------------------
-Tree Nuts         | Coconut, Nutmeg, Butternut Squash, 
-                  | Water Chestnuts, Shea Butter, 
-                  | Nutritional Yeast, Pine Nuts, Chestnuts.
-------------------------------------------------------------
-Gluten            | Buckwheat, Glutinous Rice, Gluten-Free.
-------------------------------------------------------------
-Eggs              | Eggplant.
-------------------------------------------------------------
-Soy               | Soy Lecithin (Refined fat, low protein).
-------------------------------------------------------------
+The allergen processing rules include specific exclusions designed to
+reduce false positives where ingredient terms can have different
+culinary or botanical meanings.
 
-*Note on Pine Nuts/Chestnuts: These are botanically distinct 
-from common tree nut allergies (Cashew/Almond) and are 
-excluded to focus on primary culinary allergens.
+| Category | Excluded / Disambiguated Terms |
+|---|---|
+| Tree nuts | Coconut, nutmeg, butternut squash, water chestnuts, shea butter, nutritional yeast, pine nuts, chestnuts |
+| Gluten | Buckwheat, glutinous rice, gluten-free |
+| Eggs | Eggplant |
+| Soy | Soy lecithin |
+
+These rules were developed as part of the project's allergen-processing
+and false-positive mitigation work.
+
 
 ### NLP Research
 

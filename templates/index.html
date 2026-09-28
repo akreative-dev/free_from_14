@@ -167,8 +167,9 @@
     </div>
 {% else %}
     <div class="safety-ledger-note is-verified">
-        <strong>VERIFIED SAFE:</strong>
-        <span>Safe from the 14 major allergens by our AI discovery engine. <strong>Note:</strong> Please double-check ingredients; automated assessments may occasionally contain errors.</span>
+        <strong>NO DETECTED ALLERGENS:</strong>
+        <span>No allergens from the 14 tracked categories were detected by the
+        automated classification system. <strong>Note:</strong> Please double-check ingredients; automated assessments may occasionally contain errors.</span>
     </div>
 {% endif %}
                             
@@ -216,7 +217,7 @@
                                 <div class="ai-swap-container mt-2">
                                     <input type="checkbox" id="swap-{{ recipe.id }}" class="swap-toggle-check" style="display:none;">
                                     <label for="swap-{{ recipe.id }}" class="swap-stamp">
-                                        VIEW AI SWAPS
+                                        VIEW SUGGESTED SWAPS
                                     </label>
                                     <div class="swap-reveal-content">
                                         <div class="swap-header">SUGGESTED SWAPS:</div>
