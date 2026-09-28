@@ -31,9 +31,13 @@ ingredient analysis visible to the user.
 
 ## Screenshots
 
-### Search & Allergen Filtering
+### Recipe Search
 
-![FreeFrom14 search interface](screenshots/chickenSearch.png)
+![FreeFrom14 recipe search](screenshots/pastaSearch.png)
+
+### Search Results & AI Substitutions
+
+![FreeFrom14 search results with AI substitutions](screenshots/pastaResults.png)
 
 ### Recipe Detail & Allergen Information
 
@@ -42,7 +46,6 @@ ingredient analysis visible to the user.
 ## The 14 Allergen Categories
 
 The application tracks:
-
 - Cereals containing gluten
 - Crustaceans
 - Eggs
