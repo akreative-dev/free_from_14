@@ -13,7 +13,7 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 url = os.getenv("SUPABASE_URL")
 key = os.getenv("SUPABASE_KEY")
 if not url or not key:
-    print("ERROR: SUPABASE_URL or KEY is missing!")
+    raise RuntimeError("SUPABASE_URL and SUPABASE_KEY must be set.")
 supabase = create_client(url, key)
 
 # 2. HELPER FUNCTIONS
