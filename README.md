@@ -65,19 +65,21 @@ Search & Allergen Filtering
         ↓
 Recipe Detail & Warnings
 
+```
+
 ## Technology
 
-Python
-Flask
-Supabase / PostgreSQL
-HTML5
-CSS3
-JavaScript
-spaCy
-Word2Vec
-Python-Dotenv
+- Python
+- Flask
+- Supabase / PostgreSQL
+- HTML5
+- CSS3
+- JavaScript
+- - spaCy
+- Word2Vec
+- Python-Dotenv
 
-## Allergen Detection
+### Allergen Detection
 
 The deployed application uses a custom rule-based Regex system to analyse
 recipe titles and ingredient text.
@@ -121,7 +123,7 @@ Soy               | Soy Lecithin (Refined fat, low protein).
 from common tree nut allergies (Cashew/Almond) and are 
 excluded to focus on primary culinary allergens.
 
-## NLP Research
+### NLP Research
 
 Several NLP approaches were investigated during development, including
 spaCy Named Entity Recognition and Word2Vec.
@@ -149,8 +151,6 @@ Data quality checks
 
 The final database structure includes recipe metadata, ingredient text,
 source information and allergen flags.
-
-
 
 
 ## User Experience
