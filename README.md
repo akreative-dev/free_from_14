@@ -29,6 +29,16 @@ ingredient analysis visible to the user.
 - Original recipe attribution and source links
 - Guidance-only safety messaging
 
+## Screenshots
+
+### Search & Allergen Filtering
+
+![FreeFrom14 search interface](screenshots/chickenSearch.png)
+
+### Recipe Detail & Allergen Information
+
+![FreeFrom14 recipe detail page](screenshots/recipeDetailPage.png)
+
 ## The 14 Allergen Categories
 
 The application tracks:
