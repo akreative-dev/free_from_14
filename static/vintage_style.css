@@ -1,0 +1,1543 @@
+/* ==========================================================
+   - VINTAGE STYLESHEET
+   ========================================================== */
+
+/* 1. TYPOGRAPHY & CORE COLORS */
+:root {
+    --cream-bg: #fff9e8;      
+    --navy-ink: #02075d;      
+    --yellow-pop: #ffe970;    
+    --pink-accent: #ff3db1;   
+    --cyan-accent: #35cfff;   
+    --body-serif: 'Libre Baskerville', serif;
+    --heading-slab: 'Alfa Slab One', cursive; 
+    --pantry-sans: 'Work Sans', sans-serif;
+}
+
+/* 2. GLOBAL RESET */
+html, body {
+    background-color: var(--cream-bg);
+    color: var(--navy-ink);
+    font-family: var(--body-serif);
+    line-height: 1.6;
+    overflow-x: clip;
+}
+
+/* 3. FIXED HEADER AREA */
+.search-wrapper {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2000;
+}
+
+.search-background-layer {
+    background-color: var(--navy-ink);
+    color: white;
+    padding: 30px 0;
+    border-bottom: 8px solid var(--yellow-pop);
+}
+
+.search-background-layer h1 {
+    font-family: var(--heading-slab);
+    font-size: 4.5rem;
+    color: white;
+    text-align: center;
+    margin: 0;
+}
+
+.pink-accent{
+    color: var(--pink-accent);
+}
+
+/* 4. BUTTONS (Standard & Hover) */
+.btn-success {
+    background-color: var(--pink-accent) !important;
+    border: 3px solid var(--navy-ink) !important;
+    font-family: var(--heading-slab);
+    font-size: 1.2rem;            /* Slightly larger for the main header */
+    letter-spacing: 1.5px;
+    border-radius: 0 !important;
+    padding: 12px 30px;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: white !important;
+    box-shadow: 4px 4px 0px var(--navy-ink);
+    text-transform: uppercase;
+    /* THE 3D FRAME (Resting State) */
+    /* This creates a solid yellow "shelf" under the button */
+    transform: translate(-4px, -4px); 
+    box-shadow: 6px 6px 0px var(--cyan-accent), 6px 6px 0px 3px var(--navy-ink);
+}
+
+.btn-success:hover {
+    background-color: var(--cyan-accent) !important;
+    color: var(--navy-ink) !important;
+    transform: translate(-3px, -3px); /* More movement on hover */
+    box-shadow: 7px 7px 0px var(--pink-accent); /* Shadow pop */
+}
+
+/* Active/Press state */
+.btn-success:active {
+    transform: translate(0, 0);
+    box-shadow: 0px 0px 0px var(--navy-ink);
+}
+
+.clear-btn {
+    font-size: 1.5rem !important; /* Makes the X easier to click on mobile */
+    line-height: 1;
+    color: #6c757d !important;
+    padding: 0 10px !important;
+}
+
+.clear-btn:hover {
+    color: var(--pink-accent) !important;
+}
+
+/* 5. SIDEBAR SYSTEM */
+.btn-check-hidden {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.allergen-name {
+    margin-left: 10px;
+    font-size: 0.8rem;        
+    line-height: 1.1;         /* Tighter line height for wrapped text */
+    font-family: var(--heading-slab); 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;   
+}
+
+/* The Base State */
+.pantry-button {
+    display: flex;
+    justify-content: center; /* Center the icon */
+    align-items: center;
+    height: 50px;
+    padding: 10px;
+    background-color: white !important;
+    border: 2px solid var(--navy-ink) !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* The Hover State */
+.pantry-button:hover {
+    background-color: var(--cyan-accent) !important;
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0px var(--yellow-pop);
+}
+
+/* The Selected State (Yellow & Pink) */
+.btn-check-hidden:checked + .pantry-button {
+    background-color: var(--yellow-pop) !important;
+    border: 2px solid var(--navy-ink) !important;
+    box-shadow: 4px 4px 0px var(--pink-accent) !important;
+    transform: translate(-1px, -1px);
+}
+
+.btn-check-hidden:checked + .pantry-button .allergen-name {
+    font-weight: bold;
+}
+
+/* 6. THE SIDEBAR COLUMN (STAMPED LEDGER) */
+.recipe-page-wrapper > .row {
+    display: flex !important;
+    align-items: flex-start !important; 
+    position: relative; 
+    min-height: 100vh;   /* Ensures the row exists long enough for the aside to slide */
+}
+
+aside#sidebar-content {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 270px !important;
+    z-index: 1000;
+    /* This prevents the card from being squished when recipes go too wide */
+    min-width: 220px !important; 
+    max-width: 320px !important;
+    margin-top: 0; /* Ensures no extra spacing at the top */
+}
+
+.sticky-sidebar-card {
+    background-color: var(--cream-bg);
+    border: 3px solid var(--navy-ink);
+    box-shadow: 8px 8px 0px var(--yellow-pop);
+    display: flex !important;
+    flex-direction: column !important;
+    /* Limit height so the internal scroll activates */
+    max-height: 65vh !important;
+    overflow: hidden !important; 
+}
+
+/* THE STICKY CONTROLS (THE TOP OF THE CARD) */
+.sticky-top-controls {
+    background-color: var(--cream-bg);
+    padding: 15px;
+    border-bottom: 3px dashed var(--navy-ink);
+    flex-shrink: 0; /* Prevents the header from squishing */
+    text-align: center;
+}
+
+.reset-link {
+    font-family: var(--heading-slab);
+    font-size: 0.7rem;
+    color: var(--pink-accent) !important;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.reset-link:hover {
+    color: var(--navy-ink) !important;
+    text-decoration: underline;
+}
+
+/* 7. THE SCROLLABLE AREA FOR THE 14 ALLERGENS */
+.sidebar-scroll-area {
+    overflow-y: scroll !important; 
+    display: block !important;
+    padding: 15px;
+    /* This forces the browser to treat this as the scrollable container */
+    flex: 1 1 auto;  
+}
+
+.sidebar-content-wrapper {
+    display: contents;
+}
+
+.scroll-inner-header {
+    text-align: center;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(2, 7, 93, 0.1);
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+.pantry-count-tag {
+    display: inline-block;
+    font-family: var(--body-serif);
+    font-size: 0.65rem;
+    font-weight: bold;
+    color: var(--navy-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+    text-align: center;
+}
+
+/* Chrome, Edge, and Safari */
+.sidebar-scroll-area::-webkit-scrollbar {
+    width: 12px; /* Wider for better visibility */
+    display: block !important;
+}
+
+.sidebar-scroll-area::-webkit-scrollbar-track {
+    background: var(--cream-bg);
+    border-left: 2px solid var(--navy-ink); /* Adds a vertical line divider */
+}
+
+.sidebar-scroll-area::-webkit-scrollbar-thumb {
+    background-color: var(--navy-ink); /* Dark ink thumb */
+    border: 2px solid var(--cream-bg); 
+    border-radius: 0; 
+}
+
+.sidebar-scroll-area::-webkit-scrollbar-thumb:hover {
+    background-color: var(--pink-accent); /* Bright pop when hovering! */
+}
+
+/* PANTRY HEADER BOX */
+.pantry-header-box {
+    text-align: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(2, 7, 93, 0.1);
+}
+
+.vintage-subtitle {
+    font-family: var(--heading-slab);
+    font-size: 1rem;           
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: var(--navy-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pantry-count-tag {
+    display: inline-block;
+    background-color: var(--navy-ink);
+    color: var(--cream-bg);
+    font-family: var(--body-serif);
+    font-size: 0.6rem;
+    font-weight: bold;
+    padding: 2px 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+/* 8. THE PANTRY BUTTONS (INGREDIENTS)*/
+.pantry-button {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background-color: white !important;
+    border: 2px solid var(--navy-ink) !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    white-space: normal;      /* Allows wrapping */
+    overflow-wrap: break-word; /* Prevents long words (e.g. Crustaceans) from escaping */
+    word-break: break-word;   
+}
+
+.pantry-button:hover {
+    background-color: var(--cyan-accent) !important;
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0px var(--yellow-pop);
+}
+
+.sidebar-icon {
+    font-size: 1.5rem;
+    transition: opacity 0.2s;
+}
+
+.allergen-name {
+    margin-left: 10px;
+    font-size: 0.8rem;
+    line-height: 1.1;
+    font-weight: bold;
+}
+
+.pantry-button:hover .sidebar-icon { opacity: 0; }
+.pantry-button:hover .allergen-name { opacity: 1; }
+
+/* 9. THE ACTIVE STATE (SELECTED)  */
+.btn-check-hidden:checked + .pantry-button {
+    background-color: var(--yellow-pop) !important;
+    box-shadow: 4px 4px 0px var(--pink-accent) !important;
+    transform: translate(-1px, -1px);
+}
+
+/* 10. RECIPE CARDS */
+.recipe-paper-card .card-body {
+    display: flex;
+    flex-grow: 1;
+    min-height: 500px;
+    padding: 0px;
+    flex-direction: column;
+    position: relative;
+    justify-content: flex-start !important; /* Keeps everything stacked at the top */
+}
+
+/* Specifically target the elements to remove 'auto' growing */
+.title-divider, 
+.safety-seal-container, 
+.vintage-subtitle-small {
+    flex-grow: 0; /* Prevents these from stretching to fill space */
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.recipe-paper-card {
+    background: white;
+    border: 3px solid var(--navy-ink);
+    padding: 20px;
+    box-shadow: 8px 8px 0px var(--yellow-pop);
+    /* This ensures the card only takes up the space it NEEDS */
+    display: flex !important; 
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 100%;
+    height: auto;
+    width: 100%;
+    margin-bottom: 30px;
+    /* Avoid awkward gaps if using a column-based layout */
+    break-inside: avoid; 
+}
+
+.recipe-card-content {
+    margin-top: 10px !important; /* Fixed small gap instead of 'auto' */
+    flex-grow: 1; /* This lets the box fill the space without pushing away */
+    display: flex;
+    flex-direction: column;
+}
+
+.recipe-paper-card h4 a {
+    font-family: var(--heading-slab);
+    font-size: 2rem;
+    color: var(--navy-ink) !important;
+    text-decoration: none;
+    text-shadow: 2px 2px 0px var(--yellow-pop);
+    display: block;
+    line-height: 1.1;
+}
+
+/* THE HOVER EFFECT */
+.recipe-paper-card a:hover {
+    color: var(--pink-accent) !important;
+    transform: skewX(-3deg) scale(1.02); /* Slight vintage "italic" tilt */
+    cursor: pointer;
+}
+
+.vintage-subtitle-small {
+    font-family: var(--heading-slab);
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--navy-ink);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.card-ingredient-list {
+    max-height: 300px; /* Limits the height of the list area */
+    overflow-y: auto;  /* Adds a small scrollbar inside the card if the list is huge */
+    padding-left: 5px;
+    line-height: 0.5 !important;
+    list-style-type: none;
+    margin: 0;
+}
+
+.detail-ingredient-list {
+    padding-left: 5px !important;
+    margin-top: 1.5rem;
+    list-style-type: none;
+}
+
+.card-ingredient-list li, 
+.detail-ingredient-list li {
+    font-family: var(--pantry-sans);
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--navy-ink);          
+    margin-bottom: 4px;         
+    padding: 2;  
+    padding-left: 15px;
+    margin-bottom: 5px;     
+    position: relative;  
+    display: flex;       
+    list-style: none !important; /* Forces default bullets away */
+    align-items: flex-start;
+    line-height: 1.4 !important;
+}
+
+/* The Big Pink Dot - Only for Ingredients */
+.card-ingredient-list li::before, 
+.detail-ingredient-list li::before {
+    content: "•";               
+    position: absolute;         
+    left: 0;                    
+    top: 50%;                   
+    transform: translateY(-50%); 
+    font-size: 2.2rem;          
+    color: var(--pink-accent);  
+    line-height: 1;  
+    display: inline-block; 
+    width: 1em;
+    margin-left: -1em;    
+    left: -15px;      
+}
+.step-box p {
+    font-size: 1.35rem;
+    margin-bottom: 2rem;
+    padding-left: 15px;
+    border-left: 3px solid var(--yellow-pop); /* Visual anchor for the eye */
+}
+
+/* The Dot */
+.pink-dot {
+    color: var(--pink-accent);
+    font-weight: bold;
+    margin-right: 8px;
+    flex-shrink: 0; /* Prevents dot from shrinking/disappearing */
+}
+
+/* Ingredient text */
+.ingredient-item span:last-child {
+    word-wrap: break-word;
+}
+
+.ingredient-text {
+    flex: 1; /* Ensures the text takes up the rest of the space */
+}
+
+/* The Navigation Wrapper */
+.vintage-pantry-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid var(--yellow-pop); 
+    background: transparent; /* Matches main card background */
+    border-radius: 2px;
+    padding: 10px 5px;
+    margin-top: 5px;
+    position: relative;
+}
+
+/* The Scrolling Window (Set for ~10 ingredients) */
+.ingredient-scroll-box {
+    max-height: 400px; 
+    overflow-y: auto;
+    width: 100%;
+    height: auto;
+    scrollbar-width: none; 
+    padding-left: 10px;
+}
+
+/* Hide scrollbar for Chrome/Safari */
+.ingredient-scroll-box::-webkit-scrollbar {
+    display: none;
+}
+
+/* The Pink Glyphs */
+.scroll-glyph {
+    font-size: 1.2rem;
+    color: var(--pink-accent); 
+    opacity: 0.8; /* Keeping them visible but not overwhelming */
+    user-select: none;
+    font-family: var(--heading-slab);
+    padding: 2px 0;
+}
+
+.results-counter-wrapper {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#ledger-results-count {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--navy-ink);
+    background: rgba(44, 62, 80, 0.05); /* Very faint navy tint */
+    padding: 5px 12px;
+    border-left: 4px solid var(--pink-accent);
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.count-number {
+    color: var(--pink-accent);
+    font-size: 1rem;
+}
+
+
+/* 11. PINK DIVIDER */
+.title-divider {
+    border: 0;
+    height: 4px;
+    background-color: var(--pink-accent);
+    width: 60%;
+    margin: 15px 0;
+    opacity: 1;
+}
+
+/* 12. ICONS & NOTES */
+.safety-seal-container {
+    padding: 10px 0;
+    margin-bottom: 0 !important;
+}
+
+.safety-icon-stamp {
+    font-size: 1.3rem;
+    margin-right: 8px;
+    margin-bottom: 2px;
+    filter: drop-shadow(1px 1px 0px var(--yellow-pop));
+}
+
+.culinary-note-tag {
+    background-color: var(--yellow-pop) !important;
+    border: 1px solid var(--navy-ink);
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    box-shadow: 2px 2px 0px var(--pink-accent);
+}
+
+/* THE BASE BOX */
+.safety-ledger-note {
+    border: 2px solid var(--navy-ink);
+    padding: 12px;
+    font-family: var(--body-serif);
+    font-size: 0.85rem;
+    margin: 15px 0;
+    transition: all 0.3s ease;
+}
+
+.safety-ledger-note strong {
+    font-family: var(--heading-slab);
+    font-size: 0.75rem;
+    display: block;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* 🟢 VERIFIED SAFE: White box with Green accents */
+.is-verified {
+    background-color: #ffffff;
+    border-color: #28a745; /* Green Border */
+    box-shadow: 5px 5px 0px #28a745; /* Green Shadow */
+}
+
+.is-verified strong {
+    color: #28a745;
+}
+
+/* 🟡 WARNING STAMP: Yellow background with Pink accents */
+.is-warning {
+    background-color: var(--yellow-pop) !important;
+    border-color: var(--navy-ink) !important;
+    box-shadow: 5px 5px 0px var(--pink-accent) !important; /* Pink Shadow */
+    display: block !important;
+}
+
+.is-warning strong {
+    color: var(--navy-ink) !important;
+}
+
+.is-warning span {
+    font-weight: bold !important;
+    color: var(--navy-ink) !important;
+}
+
+/* 13. THE AI SWAP STAMP */
+.swap-stamp {
+    display: inline-block;
+    background-color: transparent;
+    color: var(--pink-accent);
+    border: 2px dashed var(--pink-accent);
+    padding: 5px 15px;
+    font-family: var(--heading-slab);
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    transform: rotate(-2deg); /* Gives that 'hand-stamped' look */
+    margin-top: 10px;
+}
+
+.swap-header {
+    font-family: var(--heading-slab); /* Matches your other headers */
+    font-size: 0.7rem;
+    color: var(--navy-ink);
+    padding: 8px 10px 0 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: #fff9e8; /* Matches the swap box background */
+}
+
+.swap-stamp:hover {
+    background-color: var(--pink-accent);
+    color: white;
+    transform: rotate(0deg) scale(1.05);
+}
+
+/* 14. THE REVEAL LOGIC */
+.swap-reveal-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    background: var(--cream-bg);
+    border-left: 3px solid var(--cyan-accent);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* When the hidden checkbox is checked, grow the content box */
+.swap-toggle-check:checked ~ .swap-reveal-content {
+    max-height: 500px; /* Adjust based on content size */
+    padding: 10px;
+}
+
+.swap-text {
+    font-family: var(--body-serif);
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+}
+
+.swap-list {
+    list-style: none;
+    padding-left: 0;
+    font-size: 0.8rem;
+    color: var(--navy-ink);
+}
+
+.swap-list li {
+    padding: 4px 0;
+    border-bottom: 1px dotted rgba(2, 7, 93, 0.2); /* Faint ledger line */
+    font-style: italic;
+}
+
+.swap-list li:last-child {
+    border-bottom: none;
+}
+
+/* Optional: change the "VIEW AI SWAPS" text once opened */
+.swap-toggle-check:checked + .swap-stamp {
+    background-color: var(--yellow-pop);
+    border-style: solid;
+    color: var(--navy-ink);
+    content: "CLOSE SWAPS"; /* Note: content only works on pseudo-elements, but we can style it! */
+}
+
+/* --------------------------------------*/
+/* 15. RESPONSIVE MEDIA QUERIES */
+
+@media (min-width: 768px) and (max-width: 1100px) {
+    .recipe-page-wrapper .row {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        width: 100%;
+}
+    /* Shrink the sidebar width so recipes have more room */
+    aside#sidebar-content {
+        min-width: 120px !important;
+    }
+
+    /* Hide the text by default in this range */
+    .pantry-button .allergen-name {
+        display: none;
+    }
+
+    /* Show the icon large and centered */
+    .pantry-button .sidebar-icon {
+        display: block;
+        font-size: 1.5rem;
+    }
+
+    /* Reveal text ON HOVER only */
+    .pantry-button:hover .sidebar-icon {
+        display: none;
+    }
+    
+    .pantry-button:hover .allergen-name {
+        display: block;
+        font-size: 0.65rem;
+        line-height: 1;
+    }
+    
+    /* Make the "Update" button smaller/text-only if needed */
+    .sticky-top-controls button {
+        font-size: 0.7rem;
+        padding: 10px 5px;
+    }
+}
+
+/* Existing Desktop Margin */
+@media (min-width: 768px) {
+    .recipe-page-wrapper { margin-top: 300px; }
+}
+
+/* Existing Mobile View */
+@media (max-width: 767px) {
+
+    body {
+        padding-top: 0 !important; 
+        margin-top: 0 !important;
+    }
+
+    .search-background-layer {
+        padding: 20px 10px !important;
+    }
+
+    .search-wrapper { 
+        position: relative;
+        width: 100%;
+        }
+    
+    .search-container .d-flex {
+        flex-direction: column !important; /* Stack search input on top of button */
+        gap: 10px !important;
+    }
+
+    .search-container input[name="search"] {
+        width: 100% !important;
+        height: 50px !important;
+    }
+
+    .recipe-page-wrapper { margin-top: 20px; }
+    .search-background-layer h1 { 
+        font-size: 2.2rem !important;
+        margin-bottom: 15px;
+     }
+    .results-counter-wrapper {
+        justify-content: center;
+        margin-top: 20px;
+    }
+    
+    /* On mobile, icons and text can stay together since it's a single column */
+    .allergen-name { display: inline-block; } 
+    .vintage-subtitle {
+        font-size: 1rem;
+        text-align: center;
+        margin-top: 15px !important;
+        /* Ensures the pink slab look is forced on small screens */
+        color: var(--pink-accent) !important;
+        font-family: var(--heading-slab) !important;
+    }
+    /* 1. The Mobile Toggle Button (The one with the scroll emoji) */
+    .btn-outline-success.d-md-none {
+        border: 2px solid var(--navy-ink) !important;
+        background-color: var(--yellow-pop) !important; /* Yellow base for high visibility */
+        color: var(--navy-ink) !important;
+        font-family: var(--heading-slab) !important;
+        font-weight: 800 !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 0 !important; /* Keeps the blocky ledger look */
+        box-shadow: 4px 4px 0px var(--pink-accent); 
+        transition: all 0.2s ease;
+        margin-right: 10px;
+    }
+
+    .sticky-sidebar-container {
+        position: relative; /* Unstick on mobile for better scrolling */
+        top: 0;
+    }
+    
+    .method-content {
+        padding-left: 0;
+        border-left: none;
+        margin-top: 3rem;
+    }
+
+    .btn-outline-success.d-md-none:hover,
+    .btn-outline-success.d-md-none:active {
+        background-color: var(--cyan-accent) !important;
+        color: white !important;
+        transform: translate(2px, 2px);
+        box-shadow: 0px 0px 0px var(--navy-ink);
+    }
+
+    /* Mobile Sidebar Overlay Fix */
+    #sidebar-content.collapse.show {
+        /* Centering Logic */
+        display: block; 
+        margin-left: auto !important;
+        margin-right: auto !important;
+        float: none !important;
+        width: 90%; /* Keeps it from hitting the very edges of the screen */
+        background-color: #fdf6e3;
+        border: 3px solid var(--navy-ink);
+        padding: 20px;
+        margin-top: 15px;
+        margin-bottom: 25px;
+        box-shadow: 8px 8px 0px var(--pink-accent);
+        z-index: 1050;
+        position: relative;
+    }
+
+    /* Ensure the scroll area inside doesn't cut off */
+    .sidebar-scroll-area {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centers the checkboxes */
+    }
+
+    /* Center the internal content */
+    .sticky-sidebar-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centers the Update Button and Title */
+    }
+
+    .btn-close-ledger {
+        background: var(--cyan-accent);
+        color: white;
+        border: 2px solid var(--navy-ink);
+        font-family: var(--heading-slab);
+        font-size: 0.8rem;
+        padding: 5px 12px;
+        position: absolute;
+        top: -15px; /* Pops it slightly over the top edge */
+        right: -10px;
+        box-shadow: 4px 4px 0px var(--navy-ink);
+        cursor: pointer;
+        z-index: 1100;
+        }
+
+    .btn-close-ledger:active {
+        transform: translate(2px, 2px);
+        box-shadow: 0px 0px 0px var(--navy-ink);
+        }
+    
+    /* 6. Ensure the aside (sidebar) doesn't overlap cards */
+    aside#sidebar-content {
+        position: relative !important;
+        top: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 20px;
+    }
+
+
+/* Specific fix for small mobile screens (iPhone SE/375px) */
+@media (max-width: 576px) {
+    /* 1. Reset the absolute outermost layers */
+    html, body.recipe-detail-body {
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow-x: hidden; /* Prevent horizontal wobbling */
+    }
+    .recipe-main-title {
+        font-size: 2rem !important;
+    }
+
+    /* 2. Target the wrapper and force it to be full-width */
+    .recipe-detail-wrapper {
+        max-width: 100vw !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* 3. The stretch for the paper itself */
+    .recipe-detail-paper {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100vw !important;
+        font-size: 1.3rem;
+        line-height: 1.7;
+        border-left: none !important;
+        border-right: none !important;
+        border-radius: 0 !important;
+        padding: 20px 10px !important; /* Keep space for text readability inside */
+    }
+    
+    /* 4. Fix the Row/Column padding inside */
+    .recipe-detail-paper .row,
+    .recipe-detail-paper .col-md-5,
+    .recipe-detail-paper .col-md-7 {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+}   .detail-ingredient-list li, 
+    .step-box p {
+        font-size: 1.35rem;
+        margin-bottom: 2rem;
+        padding-left: 15px;
+        border-left: 3px solid var(--yellow-pop); 
+    }
+
+/* The Mobile "Safety" */
+@media (max-width: 480px) {
+    .medical-disclaimer-pill {
+        transform: rotate(-2deg) scale(0.9); /* Slightly smaller & less tilted on mobile */
+        margin: 10px auto;
+        display: block;
+        text-align: center;
+    }
+    .recipe-detail-card {
+        padding: 15px !important;
+        font-size: 1.05rem;
+    }
+    }
+
+/*-----------------------------*/
+/* The "Find Food" Button */
+.btn-success.px-5 {
+    background-color: var(--pink-accent) !important;
+    border: 2px solid var(--navy-ink) !important;
+    border-radius: 0 !important; 
+    font-family: var(--heading-slab) !important;
+    box-shadow: 4px 4px 0px var(--navy-ink);
+    transform: translate(-2px, -2px);
+}
+}
+
+/* 16. RECIPE DETAIL PAGE */
+.recipe-detail-body {
+    padding-top: 50px;
+}
+
+.recipe-detail-paper {
+    background: white;
+    border: 4px solid var(--navy-ink);
+    padding: 40px;
+    box-shadow: 15px 15px 0px var(--yellow-pop);
+    position: relative;
+    min-height: 80vh;
+}
+
+.recipe-main-title {
+    font-family: var(--heading-slab);
+    font-size: 3rem;
+    color: var(--navy-ink);
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.ledger-text {
+    font-family: var(--body-serif);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    white-space: pre-wrap; /* Keeps the line breaks */
+}
+
+/* Detail Page Readability */
+.recipe-detail-wrapper {
+    max-width: 900px; /* Constrains the width so it's not too wide on desktop */
+    margin: 40px auto; 
+    padding: 0 15px;
+}
+
+.recipe-detail-card {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    background: #fdf6e3;
+    border: 2px solid var(--navy-ink);
+    padding: 30px !important;
+}
+
+/* Specific text boost */
+.ingredient-item, .method-step {
+    font-size: 1.2rem; 
+    margin-bottom: 12px;
+}
+
+/* AI SWAP BOX (The "Post-It" look) */
+.ai-swap-detail-box {
+    background-color: var(--cream-bg);
+    border: 3px dashed var(--pink-accent);
+    padding: 20px;
+    position: relative;
+    transform: rotate(0.5deg);
+}
+
+.stamp-label {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: var(--pink-accent);
+    color: white;
+    padding: 2px 10px;
+    font-family: var(--heading-slab);
+    font-size: 0.7rem;
+    transform: rotate(-1deg);
+}
+
+.highlight-swap {
+    color: var(--pink-accent);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.detail-swap-list {
+    list-style: "→ ";
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.detail-swap-list li {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.allergen-tag {
+    background: var(--cyan-accent);
+    padding: 1px 5px;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+/* SAFE SEAL */
+.badge-icon {
+    font-size: 1.1rem;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.safe-status-badge {
+    display: inline-block;
+    font-family: var(--heading-slab);
+    font-size: 0.85rem;
+    padding: 8px 25px;
+    border: 3px solid var(--navy-ink);
+    background-color: var(--cyan-accent);
+    color: var(--navy-ink);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transform: rotate(-1.5deg); /* Hand-stamped tilt */
+    box-shadow: 4px 4px 0px var(--yellow-pop);
+}
+
+.safe-seal-box {
+    border: 2px solid var(--navy-ink);
+    padding: 10px;
+    display: inline-block;
+    background: #f6fff6; /* Very light green hint */
+    font-weight: bold;
+}
+
+/* 17. MEGA BACK BUTTON */
+.big-nav-stamp {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none !important;
+    color: var(--navy-ink) !important;
+    transition: all 0.3s ease;
+}
+
+.mega-arrow {
+    font-size: 4.5rem; /* Massive size */
+    font-family: 'serif'; /* Ensures a classic, pointy arrow shape */
+    line-height: 1;
+    margin-right: 15px;
+    text-shadow: 2px 0px 0px var(--navy-ink); 
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.nav-text-stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.nav-sub {
+    font-family: var(--body-serif);
+    font-size: 0.7rem;
+    font-style: italic;
+    letter-spacing: 1px;
+    margin-bottom: -5px;
+}
+
+.nav-main {
+    font-family: var(--heading-slab);
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    border-bottom: 3px solid transparent;
+}
+
+/* Hover Effects */
+.big-nav-stamp:hover .mega-arrow {
+    transform: translateX(-15px) scale(1.1);
+    color: var(--pink-accent);
+    text-shadow: 2px 0px 0px var(--pink-accent);
+}
+
+.big-nav-stamp:hover .nav-main {
+    color: var(--pink-accent);
+    border-bottom: 3px solid var(--navy-ink);
+}
+
+/*------------------------------------------*/
+/* 18. INGREDIENT LEDGER LIST (Detail Page) */
+
+.ledger-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.ledger-list li {
+    display: flex;         /* Horizontal layout: Name --- Dots --- Link */
+    align-items: baseline; /* Aligns text and dots on the same "shelf" */
+    width: 100%;
+    margin-bottom: 12px;
+    font-family: var(--body-serif);
+    font-size: 1.05rem;
+    color: var(--navy-ink);
+}
+
+/* The DOTS */
+.ledger-list li::after {
+    content: "";
+    flex-grow: 1;          /* Forces dots to fill all available space */
+    margin: 0 10px;
+    border-bottom: 2px dotted var(--navy-ink);
+    opacity: 0.25;         /* Makes dots look like light pencil/ink marks */
+}
+
+.ingredient-name {
+    flex-shrink: 0;        /* Prevents the text from squishing */
+    max-width: 75%;
+}
+
+.ingredient-link {
+    flex-shrink: 0;        /* Keeps the [INFO] on the right */
+    font-family: var(--heading-slab);
+    font-size: 0.7rem;
+    color: var(--pink-accent) !important;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+}
+
+/* Adding the brackets via CSS so HTML stays clean */
+.ingredient-link::before { content: "["; }
+.ingredient-link::after { content: "]"; }
+
+.ingredient-link:hover {
+    color: var(--cyan-accent) !important;
+}
+
+
+/* 19: STICKY SIDEBAR LOGIC */
+.sticky-sidebar-container {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 30px; 
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+    padding-right: 10px;
+    padding-top: 60px; 
+    z-index: 10; /* Ensures it stays above background elements */
+}
+
+/* Scrollbar styling */
+.sticky-sidebar-container::-webkit-scrollbar {
+    width: 5px;
+}
+.sticky-sidebar-container::-webkit-scrollbar-thumb {
+    background: var(--pink-accent);
+    border-radius: 5px;
+}
+
+.recipe-detail-paper {
+    position: relative;
+    overflow: visible !important; /* Forces sticky to work */
+    font-family: var(--body-serif); 
+    font-size: 1.25rem; 
+    line-height: 1.85;
+    color: #1a1a1a; /* Soft black is easier on eyes than pure black */
+}
+
+/* -------------------------------------
+   - RECIPE DETAIL LAYOUT ENHANCEMENTS
+---------------------------------------- */
+
+/* LEDGER NOTE
+/* --- 1. BASE STYLES --- */
+.culinary-safe-note-tag {
+    font-family: var(--pantry-sans);
+    position: relative;
+    list-style: none;
+    margin-bottom: 8px;
+}
+
+.blue-slab-label {
+    font-family: var(--heading-slab); 
+    color: var(--blue-accent);  
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-right: 8px;     /* Space before the rest of the text */
+}
+/* 🟢 SAFE STATE (Your original styles) */
+.safe-stamp {
+    background-color: var(--cyan-accent);
+    color: var(--navy-ink);
+    transform: rotate(-1.5deg); 
+    box-shadow: 4px 4px 0px var(--yellow-pop);
+}
+
+/* 🟡 WARNING STATE (The Kitchen Alert style) */
+.warning-stamp {
+    background-color: var(--yellow-pop);
+    color: var(--navy-ink);
+    transform: rotate(1.5deg); /* Tilt the opposite way for "Chaos" */
+    box-shadow: 4px 4px 0px var(--pink-accent); /* Pink shadow for warnings */
+}
+
+.ledger-text-small {
+    font-family: var(--body-serif);
+    font-size: 0.8rem;
+    text-transform: none; /* Keep the warning text readable */
+    letter-spacing: 0;
+    margin-top: 5px;
+    display: block;
+}
+
+/* --- 2. INDEX PAGE LOOK (The Search Grid) --- */
+/* Target only when inside the 'recipe-card' */
+.recipe-card .culinary-note-tag li {
+    padding-left: 25px;
+    font-size: 1.1rem;
+    color: var(--navy-ink);
+}
+
+.recipe-card .culinary-note-tag li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.2rem;
+    color: var(--pink-accent); /* Pink dots for the grid */
+}
+
+/* 3. THE LEDGER NOTES (Refined for Sidebar) */
+.culinary-note-tag, 
+.culinary-safe-note-tag {
+    background-color: #fff;
+    border: 2px solid var(--navy-ink);
+    padding: 15px 15px 15px 40px; /* Room for the ledger line */
+    position: relative;
+    box-shadow: 5px 5px 0px var(--pink-accent);
+    margin-bottom: 2rem;
+    line-height: 1.4;
+}
+
+/* The vertical pink "Margin" line for the sidebar notes */
+.culinary-note-tag::before,
+.culinary-safe-note-tag::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: rgba(255, 0, 127, 0.3);
+}
+
+.culinary-safe-note-tag {
+    box-shadow: 5px 5px 0px #28a745; /* Green shadow for safe recipes */
+}
+
+.safe-state {
+    border-color: #28a745 !important;
+    box-shadow: 4px 4px 0px #28a745 !important;
+}
+
+/* --- 3. DETAIL PAGE LOOK (The Recipe Method) --- */
+/* Target only when inside the 'recipe-details' container */
+.recipe-details .culinary-note-tag p {
+    padding-left: 60px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 25px;
+}
+
+.recipe-details .culinary-note-tag p::before {
+    counter-increment: recipe-steps;
+    content: counter(recipe-steps);
+    position: absolute;
+    left: 0; 
+    top: 0;
+    width: 32px;
+    height: 32px;
+    background-color: var(--yellow-pop); /* Yellow boxes for the method */
+    color: var(--navy-ink);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 3px 3px 0px var(--navy-ink);
+    transform: rotate(-4deg);
+    font-weight: 700;
+}
+
+/* --- 4. Medical Disclaimer (Centered) --- */
+.medical-disclaimer-pill {
+    width: auto;
+    max-width: 100%; 
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.medical-disclaimer-pill .badge {
+    /* ALLOW THE TEXT TO WRAP */
+    white-space: normal !important;
+    overflow-wrap: break-word;  /* Breaks long words if needed */
+    display: inline-block;      /* Keeps the badge shape flexible */
+    
+    /* WIDTH & SCALING */
+    max-width: 100%;                  
+    width: auto;
+    height: auto;    /* Let the height grow as text wraps */
+    
+    /* STYLING */
+    font-family: var(--body-serif);
+    font-size: clamp(0.7rem, 2vw, 0.9rem); /* Fluid font sizing */
+    padding: 10px 16px;
+    background-color: #fff !important;
+    border: 1px solid var(--pink-accent) !important;
+    color: var(--pink-accent) !important;
+    letter-spacing: 0.5px;
+    box-shadow: 2px 2px 0px rgba(255, 61, 177, 0.2);
+}
+
+/* --- 5. Bottom Source Footer --- */
+.recipe-footer {
+    margin-top: 60px;
+    border-top: 2px dashed rgba(2, 7, 93, 0.1);
+    padding-top: 20px;
+}
+
+.vintage-source-link {
+    color: var(--navy-ink);
+    text-decoration: underline;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.vintage-source-link:hover {
+    color: var(--pink-accent);
+    background-color: var(--yellow-pop);
+}
+
+/* --- 6. Refined Sidebar Swap Box --- */
+/* This makes the box look like it belongs in the aside */
+.ai-swap-detail-box {
+    margin-top: 30px;
+    background-color: #fff;
+    border: 3px dashed var(--pink-accent);
+    padding: 25px 15px 15px 15px;
+    box-shadow: 5px 5px 0px var(--cyan-accent);
+}
+
+.detail-swap-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.detail-swap-list li {
+    border-bottom: 1px dotted rgba(2, 7, 93, 0.1);
+    padding: 8px 0;
+    line-height: 1.4;
+}
+
+/* --- 7. Title & Divider Spacing --- */
+.recipe-main-title {
+    font-family: var(--heading-slab);
+    font-size: 3rem !important;
+    color: var(--navy-ink);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.title-divider {
+    height: 6px; /* Thickened for impact */
+    margin-bottom: 20px;
+}
+
+/* -------------------------------------
+   - THE METHOD (CLEAN NOTEBOOK LOOK)
+   ----------------------------------- */
+
+.method-content {
+    background-color: #fff;
+    border-left: 2px dashed var(--pink-accent); /* Clean ledger margin line */
+    padding: 10px 10px 10px 60px; /* Room for numbers on the left */
+    position: relative;
+    counter-reset: recipe-steps;
+}
+
+.method-content p {
+    font-family: var(--body-serif);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--navy-ink);
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0; /* Soft notebook lines */
+    position: relative;
+    min-height: 40px;
+    list-style: none; /* Security measure */
+}
+
+/* THE NUMBERS: The Yellow Tilted Box with Shadow */
+.method-content p::before {
+    counter-increment: recipe-steps;
+    content: counter(recipe-steps);
+    
+    position: absolute;
+    left: -48px; /* Adjusted to sit nicely against the pink margin line */
+    top: 0;
+    
+    font-family: var(--heading-slab); 
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--navy-ink);
+    
+    width: 32px;
+    height: 32px;
+    background-color: var(--yellow-pop); 
+    
+    /* THE VINTAGE TILT & SHADOW */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 3px 3px 0px var(--navy-ink); /* Blocky retro shadow */
+    transform: rotate(-4deg);                /* Hand-stamped tilt */
+    border-radius: 2px;                      /* Slight square rounding */
+}
+
+/* Alternate the tilt for every other step for "Scrapbook" feel */
+.method-content p:nth-child(even)::before {
+    transform: rotate(3deg);
+}
+
+.method-content p:last-child {
+    border-bottom: 1px solid #f0f0f0;
+    font-style: normal;
+    opacity: 1;
+}
+
+/* ---- USER TESTING BADGE --- */
+.testing-badge {
+        display: inline-block;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #d33682; 
+        text-decoration: none;
+        border: 1px solid #d33682;
+        padding: 4px 12px;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        background-color: rgba(211, 54, 130, 0.05);
+    }
+
+.testing-badge:hover {
+        background-color: #d33682;
+        color: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+.feedback-link-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    }
+
+.feedback-link-wrapper::before,
+.feedback-link-wrapper::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ccc; /* Subtle vintage line */
+    margin: 0 15px;
+    }
+
+/* FORCE SEARCH BAR TO STRETCH */
+.search-container .d-flex.flex-column.flex-md-row {
+    width: 100% !important;
+    display: flex !important;
+}
+
+.search-container input[name="search"] {
+    flex: 1 1 auto !important; /* This forces the bar to grow */
+    width: 100%;
+}

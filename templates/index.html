@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="description" content="Free From 14: A precision recipe database for the 14 major allergens. Built for researchers and home cooks.">
+    <meta property="og:title" content="Free From 14">
+    <meta property="og:description" content="High-precision allergen filtering for 50,000+ recipes.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free From 14 | Research-Grade Allergen Filtering</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vintage_style.css') }}?nocache={{ range(1, 999) | random }}">
+</head>
+
+<body> 
+    {% set icon_map = {
+    'Celery': '🌿', 
+    'Gluten': '🌾', 
+    'Crustaceans': '🦀', 
+    'Eggs': '🥚', 
+    'Fish': '🐟', 
+    'Lupin': '🌸', 
+    'Dairy': '🥛', 
+    'Molluscs': '🐚', 
+    'Mustard': '🏺', 
+    'Nuts': '🌰', 
+    'Peanuts': '🥜', 
+    'Sesame': '🌱', 
+    'Soya': '🫘', 
+    'Sulphites': '🍷'
+} %}
+
+<form action="/" method="GET" id="main-app-form">
+<div class="search-wrapper">
+        <div class="search-background-layer">
+            <div class="container search-container">
+                <h1>FREE FROM <span class="pink-accent">14</span></h1>
+                
+                <div class="d-flex flex-column flex-md-row gap-2 mb-2 w-100">
+                    <div class="search-input-wrapper d-flex align-items-center bg-white px-3 py-1 flex-grow-1 border">
+                    <input type="text" name="search" id="search-input" class="form-control form-control-lg border-0 bg-light" 
+                           placeholder="Search 50,000+ recipes..." value="{{ query or '' }}">
+                           <button type="button" id="clear-btn" class="clear-btn btn btn-link text-secondary p-0 m-0 border-0">✖</button>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-success d-md-none" type="button" 
+                            data-bs-toggle="collapse" data-bs-target="#sidebar-content" aria-controls="sidebar-content" 
+                            aria-expanded="false">Exclude Ingredients <span class="btn-arrow">↓</span></button>
+                    
+                        <button type="submit" name="action" value="search" class="btn btn-success px-5 rounded-pill fw-bold">SEARCH</button>
+                    </div>
+
+                </div> 
+                
+                <div class="feedback-link-wrapper mt-2">
+        <a href="https://tally.so/r/RGJX8v" target="_blank" class="testing-badge">
+             Click here to participate in User Testing
+        </a>
+    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid recipe-page-wrapper">
+        <div class="row px-md-5">
+            
+            <aside id="sidebar-content" class="col-md-4 col-lg-3 collapse d-md-block"> 
+    <div class="sticky-sidebar-card">
+
+        <button type="button" class="btn-close-ledger d-md-none" 
+                data-bs-toggle="collapse" data-bs-target="#sidebar-content" 
+                aria-label="Close">✖ CLOSE</button>
+
+        <div class="sticky-top-controls">
+            <button type="submit" name="action" value="update" class="btn btn-success w-100 mb-2">UPDATE PANTRY</button>
+            <div class="text-center">
+                <a href="/" class="reset-link">RESET FILTERS ✖</a>
+            </div>
+            <h5 class="vintage-subtitle text-center mt-2">EXCLUDE INGREDIENTS:</h5>
+        </div>
+
+        <div class="sidebar-scroll-area">
+            <div class="scroll-inner-header">
+                <span class="pantry-count-tag">14 ALLERGEN GROUPS</span>
+            </div>
+
+            {% for allergen, icon in icon_map.items() %}
+                {% set safe_id = allergen|lower|replace(' ', '-') %}
+                <div class="allergen-toggle-item mb-2">
+                    <input class="btn-check-hidden" type="checkbox" name="exclude" 
+                        value="{{ allergen|lower }}" id="side-{{ safe_id if safe_id else loop.index }}"
+                        {% if selected_excludes and allergen|lower in selected_excludes %}checked{% endif %}>
+                    <label class="pantry-button" for="side-{{ safe_id if safe_id else loop.index }}">
+                        <span class="sidebar-icon">{{ icon }}</span> 
+                        <span class="allergen-name">{{ allergen }}</span>
+                    </label>
+                </div>
+            {% endfor %}
+        </div> </div> </aside>
+
+<main class="col-md-8 col-lg-9">
+    {% set mapping = {
+        'Celery': 'celery',
+        'Gluten': 'gluten',
+        'Crustaceans': 'crustaceans',
+        'Eggs': 'eggs',
+        'Fish': 'fish',
+        'Lupin': 'lupin',
+        'Dairy': 'dairy',
+        'Milk': 'dairy',
+        'Molluscs': 'molluscs',
+        'Mustard': 'mustard',
+        'Nuts': 'tree_nuts',
+        'Peanuts': 'peanuts',
+        'Sesame': 'sesame',
+        'Soya': 'soy',
+        'Sulphites': 'sulphites'
+    } %}
+                                    
+    <div class="results-counter-wrapper">
+        <p id="ledger-results-count">
+            <span class="count-prefix">FOUND RECIPES:</span> 
+            <span class="count-number">{{ recipes|length }}</span>
+        </p>
+    </div>
+
+    <div class="row g-4"> {% if recipes and recipes|length > 0 %}
+            {% for recipe in recipes %}
+                <div class="col-xl-4 col-lg-6 col-md-12 mb-4">
+                    <div class="recipe-paper-card h-100 d-flex flex-column">
+                        <div class="card-body d-flex flex-column">
+                            
+                            <h4>
+                                <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}" style="text-decoration: none; color: #2c3e50;">
+                                    {{ recipe.title }}
+                                </a>
+                            </h4>
+                            <hr class="title-divider">
+
+                            {# 1. Create a namespace to track safety status across the loop #}
+{% set ns = namespace(is_actually_safe=true) %}
+
+{# 2. List of all allergen columns to check #}
+{% set allergen_cols = ['contains_celery', 'contains_gluten', 'contains_crustaceans', 'contains_eggs', 
+                       'contains_fish', 'contains_lupin', 'contains_dairy', 'contains_molluscs', 
+                       'contains_mustard', 'contains_tree_nuts', 'contains_peanuts', 'contains_sesame', 
+                       'contains_soy', 'contains_sulphites'] %}
+
+{# 3. Loop through columns: if any are True, set safe status to false #}
+{% for col in allergen_cols %}
+    {% if recipe[col] == True or recipe[col] == 'True' or recipe[col] == 1 %}
+        {% set ns.is_actually_safe = false %}
+    {% endif %}
+{% endfor %}
+
+{# 4. Apply the logic: Show Warning if there is a text warning OR if any allergen flag is True #}
+{% if (recipe.allergen_warnings and recipe.allergen_warnings|lower != 'none' and recipe.allergen_warnings|trim != '') or not ns.is_actually_safe %}
+    <div class="safety-ledger-note is-warning">
+        <strong>ALERT:</strong>
+        <span>
+            {# Show the custom database warning if it exists, otherwise show a generic AI alert #}
+            {% if recipe.allergen_warnings and recipe.allergen_warnings|lower != 'none' and recipe.allergen_warnings|trim != '' %}
+                {{ recipe.allergen_warnings }}
+            {% else %}
+                This recipe has been flagged by our AI as containing one or more of the 14 major allergens.
+            {% endif %}
+        </span>
+    </div>
+{% else %}
+    <div class="safety-ledger-note is-verified">
+        <strong>VERIFIED SAFE:</strong>
+        <span>Safe from the 14 major allergens by our AI discovery engine. <strong>Note:</strong> Please double-check ingredients; automated assessments may occasionally contain errors.</span>
+    </div>
+{% endif %}
+                            
+                            <div class="safety-seal-container mb-3">
+                                <span class="small text-muted italic d-block mb-1">Safe from:</span>
+                                {% for allergen, icon in icon_map.items() %}
+            
+                                    {% set col_suffix = mapping[allergen] if allergen in mapping else allergen|lower %}
+                                    {% set col_name = "contains_" + col_suffix %}
+
+
+{# STRICT LOGIC: Only show if the database is explicitly False #}
+{% if recipe[col_name] == False or recipe[col_name] == 0 %}
+    <span class="safety-icon-stamp" title="No {{ allergen }}">
+        {{ icon }}
+    </span>
+{% endif %}
+                                {% endfor %}
+                            </div>
+
+                            <div class="recipe-card-content mt-auto">
+                                <div class="vintage-pantry-frame">
+                                    <h6 class="vintage-subtitle-small">INGREDIENTS:</h6>
+                                    <div class="scroll-glyph">▴</div>
+                                    <div class="ingredient-scroll-box">
+                                        <ul class="card-ingredient-list">
+                                            {% set clean_card_ingredients = recipe.ingredients.replace('[', '').replace(']', '').replace("'", "").replace('"', '') %}
+                                            {% set card_items = clean_card_ingredients.split(',') %}
+                                            {% for item in card_items %}
+                                                {% if item.strip() %}
+                                                    <li class="ingredient-item">
+                                                        <span class="pink-dot">•</span> 
+                                                        <span>{{ item.strip()|capitalize }}</span>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% if card_items|length > 10 %}
+                                        <div class="scroll-glyph">▾</div>
+                                    {% endif %}
+                                </div>
+
+                                {% if recipe.substitutions %}
+                                <div class="ai-swap-container mt-2">
+                                    <input type="checkbox" id="swap-{{ recipe.id }}" class="swap-toggle-check" style="display:none;">
+                                    <label for="swap-{{ recipe.id }}" class="swap-stamp">
+                                        VIEW AI SWAPS
+                                    </label>
+                                    <div class="swap-reveal-content">
+                                        <div class="swap-header">SUGGESTED SWAPS:</div>
+                                        <ul class="swap-list" style="list-style: none; padding: 10px; margin: 0; font-family: var(--pantry-sans); font-size: 0.85rem; background: #fff9e8;">
+                                            {% for sub in recipe.substitutions %}
+                                            <li style="border-bottom: 1px dotted var(--navy-ink); padding: 4px 0;">
+                                                <span style="color: var(--pink-accent); font-weight: bold;">{{ sub.original_ingredient }}:</span> {{ sub.substitute }}
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div> </div> </div> </div> {% endfor %}
+        {% else %}
+            <div class="col-12 text-center py-5">
+                <div class="no-results-box" style="border: 2px dashed #d33682; background: #fdf6e3; padding: 40px; border-radius: 10px;">
+                    <h2 style="font-family: 'Courier New', Courier, monospace; color: #d33682;">NO ENTRIES FOUND</h2>
+                    <p class="mt-3">The Ledger has no record of ingredients matching your search criteria.</p>
+                    <a href="/" class="btn btn-outline-secondary mt-2">Clear Search & Return</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</main>
+        </div>
+    </div>
+
+
+</form> 
+
+<script>
+    // This listener is safe because it is NOT inline
+    document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.getElementById('clear-btn');
+        const searchInput = document.getElementById('search-input');
+        
+        if (btn && searchInput) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                searchInput.value = '';
+                searchInput.focus();
+            });
+        }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
